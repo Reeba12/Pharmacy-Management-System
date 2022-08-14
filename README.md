@@ -7,3 +7,4 @@ In this project, I develope pharmacy management system using OOP Concept in whic
 ## Bill 
 ![image](https://user-images.githubusercontent.com/63771491/184544085-a5abacdd-2fe1-42f1-badb-f2197ee803e2.png)
 # Admin Panel
+![image](https://user-images.githubusercontent.com/63771491/184544211-d1878820-c835-4f10-85b0-2c3c9278f100.png)
