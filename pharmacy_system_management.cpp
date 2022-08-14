@@ -49,6 +49,8 @@ Admin::Admin(){
 }
 class Customer{
 	public:
+		int customerMenu();
+		void customerDrugDealerLicense();
 		void order_list();
 		void take_order();
 		Customer(); //constructor
@@ -174,10 +176,6 @@ void LoginSystem::Login(){
 					cout << "Stock Quantity: ";
 					cin>>option;
 					adminObj.newItem(tmpNum,tmpString, tmpInt, option);
-			
-//					if(!adminObj.newItem(tmpString, tmpInt, option)){
-//						cout << "We cannot add more new items" << endl;
-//					}
 				}
 				else if(option == 3){
 					system("cls");
@@ -208,10 +206,32 @@ void LoginSystem::Login(){
 		}
 	}
 	else if(count==1 && role=="customer"){
-		cout<<"i am customer";
-		banner("User > Customer");
+		while(true){
 		Customer customerObj;
-		customerObj.take_order();
+		int option = customerObj.customerMenu();
+				if(option == 1){
+					system("cls");
+					banner("User > Customer > Take Medicine");
+					customerObj.take_order();
+				}
+				else if(option == 2){
+					int opt;
+					system("cls");
+					banner("User > Customer > Check Order List");
+					customerObj.order_list();
+				}
+					else if(option == 3){
+					system("cls");
+					banner("User > Customer > rDrug Dealer License");
+					customerObj.customerDrugDealerLicense();
+				}
+				else if(option == 4){
+					break;
+				}
+				else {
+					cout << "Invalid option" << endl;
+				}
+		}
 	}
 	else{
 		system("cls");
@@ -399,7 +419,7 @@ void Customer::take_order()		//function to take_order
 	cout<<"Enter Date : ";
 	cin>>temp->date;
 	cout << "How many Medicine would you like to order: ";
-//	cout << "  " ;
+	cout << "  " ;
 	cin >> temp->x;
 	if (temp->x >10)
 	{
@@ -438,10 +458,10 @@ void Customer::take_order()		//function to take_order
 }
 }//End function take_order
 
-void Customer::order_list()		//Function to display receipt
+void Customer::order_list()
 {
 	int i, num, num2;	
-	bool found;			//variable to search 
+	bool found;			
 	system("cls");
 	drugData *temp;
 
@@ -455,7 +475,8 @@ void Customer::order_list()		//Function to display receipt
 	cout <<"\t\tHere is the Order list\n"; 
 	cout<<"==========================================================================="<<endl;
 
-
+cout<<temp;
+cout<<num2;
 	if(temp == NULL) //Invalid receipt code
 	{
 		cout << "\tThere is no Order to show\n\t\t\tSo The List is Empty\n\n\n";
@@ -505,4 +526,32 @@ void Customer::order_list()		//Function to display receipt
 		cout <<"\n_______________________________________________________________________________\n";
 		}
 	}
+}
+int Customer::customerMenu(){
+	int opt;
+
+	banner("User > Customer");
+	cout << "1. Buy product(s)" << endl
+		<< "2. Order List" << endl
+		<< "3. Ask for drug dealer license" << endl
+		<< "4. Go back to main menu" << endl;
+	cin >> opt;
+
+	return opt;
+}
+void Customer::customerDrugDealerLicense(){
+	cout<<endl;
+	cout <<"\t\t\t\t\t\tPHARMACY OF PAKISTAN\t\t\t\t" << endl;
+	cout<<"\t\t\t**************************************************************************"<<endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout <<"\t\t\t**\t\t\tIssued to: Reeba Siddiqui\t\t\t**" << endl
+		<< "\t\t\t**\t\t\tLicense number: 123456-DRA\t\t\t**" << endl
+		<< "\t\t\t**\t\t\tIssuer: Drug Regulatory Authority\t\t**" << endl
+		<< "\t\t\t**\t\t\tExpiry Date: 30-12-2035\t\t\t\t**" << endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout<<"\t\t\t**\t\t\t\t\t\t\t\t\t**"<<endl;
+	cout<<"\t\t\t**************************************************************************"<<endl;
 }
