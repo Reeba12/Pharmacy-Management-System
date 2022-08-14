@@ -14,8 +14,9 @@ int nStocks = 0;
 int back;
 string orderReturns[MAX_ITEMS];
 int returnCount = 0;
-int tmpInt, totalCash = 0, couponAmout = 0;
+int tmpInt,tmpNum, totalCash = 0, couponAmout = 0;
 string tmpString;
+
 
 //Functions
 void pause();
@@ -41,13 +42,14 @@ class Admin{
 		void drugDealerLicense();
 		void listReturns();
 		void transactions();
-		bool newItem(string, int, int);
+		bool newItem(int,string, int, int);
 		Admin(); //constructor
 };
 Admin::Admin(){
 }
 class Customer{
 	public:
+		void order_list();
 		void take_order();
 		Customer(); //constructor
 };
@@ -58,15 +60,20 @@ Customer::Customer(){
 struct drugData{
 	int slip_number,x;
 	string customer_name,date;
-	vector<int> quantity;
-	vector<int> menu2;
-	vector<double> amount;
+	int quantity[10];
+	int menu2[10];
+	double amount[10];
 	double total;
+	string medicineName[10]={"Probiotics","Vitamin C(500mg)","Acid Free C(500mg)","Women'S Multivate","Marino Tablet","Maxi Cal Tablet","Amino Zinc Tablet","Burnex","Fabuloss 5","Royal Propollen"};
+	double Medicine[10] = {2.00,3.00,1.00,4.00,1.00,5.00,7.00,4.00,3.00,5.00};
 	
 	drugData *next;
 	drugData *prev;
 	drugData *link;
 };
+drugData *start_ptr = NULL;
+drugData *head = NULL;
+drugData *last = NULL;
 int main(){
 	int select;
 	LoginSystem loginObj;
@@ -158,26 +165,19 @@ void LoginSystem::Login(){
 					int opt;
 					system("cls");
 					banner("User > Admin > Add New item");
-						cout<<"how many drugs you want to insert: ";
-						cin>>opt;
-					for(int i=0; i<opt; i++){
+					cout << "Drug Number: ";
+					cin >> tmpNum;
 					cout << "Drug Name: ";
 					cin >> tmpString;
 					cout << "Price: ";
 					cin >> tmpInt;
 					cout << "Stock Quantity: ";
-					cin >> option;
-					adminObj.newItem(tmpString, tmpInt, option);
-					}
+					cin>>option;
+					adminObj.newItem(tmpNum,tmpString, tmpInt, option);
+			
 //					if(!adminObj.newItem(tmpString, tmpInt, option)){
 //						cout << "We cannot add more new items" << endl;
 //					}
-					cout<<"<--Go Back! press 0"<<endl;
-					cin>>back;
-					if(back==0){
-						break;
-//						adminObj.adminMenu();
-					}
 				}
 				else if(option == 3){
 					system("cls");
@@ -300,22 +300,9 @@ void Admin::transactions(){
 }
 
 
-bool Admin::newItem(string medicineName, int medicinePrice, int count){
-//	if(nStocks < MAX_ITEMS){
-
+bool Admin::newItem(int medicineNum,string medicineName, int medicinePrice, int count){
 	ofstream addmedicine("drug.txt",ios::app);
-	addmedicine<<medicineName<<' '<<medicinePrice<<' '<<count<<endl;
-//	addmedicine.close();
-//		drugNames[nStocks] = medicineName;
-//		drugPrices[nStocks] = medicinePrice;
-//		drugCounts[nStocks] = count;
-//
-//		nStocks++;
-//		return true;
-//	}
-//	else {
-//		return false;
-//	}
+	addmedicine<<medicineNum<<'--'<<medicineName<<' '<<medicinePrice<<' '<<count<<endl;
 
 }
 void Admin::drugDealerLicense(){
@@ -367,41 +354,42 @@ void Customer::take_order()		//function to take_order
 	cout <<"_____________________________________ \n\n";
 
 	drugData *temp;
-//	listItems();
 		
-	string getcontent;
-    ifstream openfile ("drug.txt");
-    if(openfile.is_open())
-    {
-        while(! openfile.eof())
-        {
-            getline(openfile, getcontent);
-            cout << getcontent << endl;
-        }
-    }
+//	string getcontent;
+//    ifstream openfile ("drug.txt");
+//    if(openfile.is_open())
+//    {
+//    	cout <<"******************************************************************************************\n";
+//				cout<<"\t\tDRUGS TYPE"<<"   \tDRUGS NAME"<<"           \tDRUGS PRICE(RM)"<<"\t\tDRUG STOCK"<<endl;
+//				cout <<"*************************************************************************************\n";
+//        while(! openfile.eof())
+//        {
+//            getline(openfile, getcontent);
+//            cout <<"\t"<<"\tOTC"<<"\t\t"<< getcontent << endl;
+//        }
+//    }
 //	sortArray(drugCounts);
-//
-//	tmpInt = 0;
-//	for(int i = 0; i < nStocks; i++){
-//		if(drugCounts[i] != 0){
-//			cout <<"medicine"<< tmpInt + 1 << ". " << drugNames[i] << endl;
-//			tmpInt++;
-//		}
-//	}
-//				cout <<"**************************************************************************\n";
-//				cout<<"DRUGS ID"<<"\tDRUGS TYPE"<<"   \t\tDRUGS NAME"<<"           DRUGS PRICE(RM)"<<endl;
-//				cout <<"**************************************************************************\n";
-//                cout<<"0001"<<"\t"<<"\tOTC"<<"\t\t"<<"    Probiotics"<<"			RM 2.00"<<endl;
-//                cout<<"0002"<<"\t"<<"\tOTC"<<"\t\t"<<"    Vitamin C(500mg)"<<"		RM 3.00"<<endl;
-//                cout<<"0003"<<"\t"<<"\tOTC"<<"\t\t"<<"    Acid Free C(500mg)"<<"		RM 1.00"<<endl;
-//                cout<<"0004"<<"\t"<<"\tOTC"<<"\t\t"<<"    Women'S Multivate"<<"		RM 4.00"<<endl;
-//                cout<<"0005"<<"\t"<<"\tOTC"<<"\t\t"<<"    Marino Tablet"<<"	 	RM 1.00"<<endl;
-//                cout<<"0006"<<"\t"<<"\tOTC"<<"\t\t"<<"    Maxi Cal Tablet"<<" 		RM 5.00"<<endl;
-//                cout<<"0007"<<"\t"<<"\tOTC"<<"\t\t"<<"    Amino Zinc Tablet"<<"		RM 7.00"<<endl;
-//                cout<<"0008"<<"\t"<<"\tOTC"<<"\t\t"<<"    Burnex"<<"			RM 4.00"<<endl;
-//                cout<<"0009"<<"\t"<<"\tOTC"<<"\t\t"<<"    Fabuloss 5"<<"			RM 3.00"<<endl;
-//                cout<<"0010"<<"\t"<<"\tOTC"<<"\t\t"<<"    Royal Propollen"<<"		RM 5.00"<<endl;
-//                cout<<" "<<endl;
+	tmpInt = 0;
+	for(int i = 0; i < nStocks; i++){
+		if(drugCounts[i] != 0){
+			cout <<"medicine"<< tmpInt + 1 << ". " << drugNames[i] << endl;
+			tmpInt++;
+		}
+	}
+				cout <<"**************************************************************************\n";
+				cout<<"DRUGS ID"<<"\tDRUGS TYPE"<<"   \t\tDRUGS NAME"<<"           DRUGS PRICE(RM)"<<endl;
+				cout <<"**************************************************************************\n";
+                cout<<"0001"<<"\t"<<"\tOTC"<<"\t\t"<<"    Probiotics"<<"			RM 2.00"<<endl;
+                cout<<"0002"<<"\t"<<"\tOTC"<<"\t\t"<<"    Vitamin C(500mg)"<<"		RM 3.00"<<endl;
+                cout<<"0003"<<"\t"<<"\tOTC"<<"\t\t"<<"    Acid Free C(500mg)"<<"		RM 1.00"<<endl;
+                cout<<"0004"<<"\t"<<"\tOTC"<<"\t\t"<<"    Women'S Multivate"<<"		RM 4.00"<<endl;
+                cout<<"0005"<<"\t"<<"\tOTC"<<"\t\t"<<"    Marino Tablet"<<"	 	RM 1.00"<<endl;
+                cout<<"0006"<<"\t"<<"\tOTC"<<"\t\t"<<"    Maxi Cal Tablet"<<" 		RM 5.00"<<endl;
+                cout<<"0007"<<"\t"<<"\tOTC"<<"\t\t"<<"    Amino Zinc Tablet"<<"		RM 7.00"<<endl;
+                cout<<"0008"<<"\t"<<"\tOTC"<<"\t\t"<<"    Burnex"<<"			RM 4.00"<<endl;
+                cout<<"0009"<<"\t"<<"\tOTC"<<"\t\t"<<"    Fabuloss 5"<<"			RM 3.00"<<endl;
+                cout<<"0010"<<"\t"<<"\tOTC"<<"\t\t"<<"    Royal Propollen"<<"		RM 5.00"<<endl;
+                cout<<" "<<endl;
     
 	temp = new drugData;
 	cout << "Type Order no: ";
@@ -413,23 +401,24 @@ void Customer::take_order()		//function to take_order
 	cout << "How many Medicine would you like to order: ";
 //	cout << "  " ;
 	cin >> temp->x;
-//	if (temp->x >10)
-//	{
-//		cout << "The Medicine you order is exceed the maximum amount of order !";
-//		system("pause");
-//	}
-//	else{
+	if (temp->x >10)
+	{
+		cout << "The Medicine you order is exceed the maximum amount of order !";
+		system("pause");
+	}
+	else{
 	for (i=0; i<temp->x; i++)
 	{
 		
-//		cout << "Please enter your selection : "<<endl;
-//		cin>> temp->menu2[i];
-//        cout<< "Medicine Name: " <<temp->drugNames[temp->menu2[i]-1]<<endl;
-//        cout << "How many medicine do you want: ";
-//        cin >> temp->quantity[i];
-//        temp->amount[i] = temp->quantity[i] * temp->drugPrices[temp->menu2[i]-1];
-//        cout << "The amount You need to pay is: " << temp->amount[i]<<" RM"<<endl;
-//        system("PAUSE");
+		cout << "Please enter your selection : "<<endl;
+		cin>> temp->menu2[i];
+		cout<<temp->menu2[i];
+        cout<< "Medicine Name: " <<temp->medicineName[temp->menu2[i]-1]<<endl;
+        cout << "How many medicine do you want: ";
+        cin >> temp->quantity[i];
+        temp->amount[i] = temp->quantity[i] * temp->Medicine[temp->menu2[i]-1];
+        cout << "The amount You need to pay is: " << temp->amount[i]<<" RM"<<endl;
+        system("PAUSE");
                       
 	}
 	cout<<"==========================================================================="<<endl;
@@ -439,13 +428,81 @@ void Customer::take_order()		//function to take_order
     cout<<"==========================================================================="<<endl;
 	system ("PAUSE");
 
-//    temp->next=NULL;
-//	if(start_ptr!=NULL)
-//	{
-//		temp->next=start_ptr;
-//	}
-//	start_ptr=temp;
-//	system("cls");
-//}
+    temp->next=NULL;
+	if(start_ptr!=NULL)
+	{
+		temp->next=start_ptr;
+	}
+	start_ptr=temp;
+	system("cls");
+}
 }//End function take_order
 
+void Customer::order_list()		//Function to display receipt
+{
+	int i, num, num2;	
+	bool found;			//variable to search 
+	system("cls");
+	drugData *temp;
+
+	temp=start_ptr;
+	found = false;
+	
+	cout<<" Enter the Reciept Number To Print The Reciept\n";
+	cin>>num2;
+	cout<<"\n";
+	cout<<"==========================================================================="<<endl;
+	cout <<"\t\tHere is the Order list\n"; 
+	cout<<"==========================================================================="<<endl;
+
+
+	if(temp == NULL) //Invalid receipt code
+	{
+		cout << "\tThere is no Order to show\n\t\t\tSo The List is Empty\n\n\n";
+	}
+	while(temp !=NULL && !found)
+	{
+		if (temp->slip_number==num2)
+		{
+			found = true;
+		}
+		else
+		{
+			temp = temp -> next;
+		}
+        if (found)	//print the receipt
+        {
+		cout <<"Reciept Number : "<<temp->slip_number;
+		cout <<"\n";
+		cout<<"Customer Name: "<<temp->customer_name<<endl;
+				
+		cout<<"Order Date : "<<temp->date<<endl;
+				
+		cout<<"_____________________________________________________________________________"<<endl;
+			
+		cout << "===============================================================================" << endl;
+		cout << "|  Medicine Type |     Medicine Name    |  	Quantity     |    Total Price |" << endl;
+		cout << "=======++==================++================++===============++===============" << endl;
+		for (i=0;i<temp->x;i++)
+		{
+//			cout << temp->type <<"  \t\t";
+			cout<<temp->medicineName[temp->menu2[i]-1]<<"\t\t\t  ";
+			cout<<temp->quantity[i] <<"\t\t";
+			cout<< temp->amount[i]<<" RM"<<endl;
+			cout<<"_________________________________________________________________________________"<<endl;
+		}
+		
+		temp->total = temp->amount[0]+temp->amount[1]+temp->amount[2]+temp->amount[3]+temp->amount[4]+temp->amount[5]+temp->amount[6]+temp->amount[7]
+						+temp->amount[8]+temp->amount[9];
+		cout<<"Total Bill is : "<<temp->total;
+		cout<<"\n";
+		cout << "Type the exact amount You need to pay: ";
+        cin >> num;
+
+		cout <<"\n";
+		cout <<"\n";
+		cout<<"Payment Done\nThank You\n";
+		cout <<"\n_______________________________________________________________________________\n";
+		}
+	}
+}
