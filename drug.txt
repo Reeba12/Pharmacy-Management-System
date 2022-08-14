@@ -1,0 +1,11 @@
+ominodol 500 20
+Probiotics 500 12
+Vitamin 0 2
+Vitamin 0 2
+Vitamin 0 2
+Vitamin 0 2
+Vitamin 0 2
+Vitamin 0 2
+addmedicine<<medicineName<<' 0 2
+addmedicine<<medicineName<<' 0 2
+addmedicine<<medicineName<<' 0 2
